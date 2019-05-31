@@ -1,7 +1,7 @@
 /*
   Be sure to import in all of the action types from `../actions`
 */
-import { FETCHING, CREATING, UPDATING, DELETING } from "../actions";
+import { LOADING, SUCCESS, ERROR, POST } from "../actions";
 /*
  Your initial/default state for this project could *Although does not have to* look a lot like this
  {
@@ -31,7 +31,17 @@ const initialState = {
 */
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCHING:   
+    case POST:   
+    return {
+      ...state,
+      smurfs: [...state.smurfs, action.payload],
+      fetchingSmurfs: true,
+      addingSmurf: false,
+      updatingSmurf: false,
+      deletingSmurf: false,
+      error: null
+    }
+    case LOADING:   
       return {
         ...state,
         fetchingSmurfs: true,
@@ -40,32 +50,24 @@ export const rootReducer = (state = initialState, action) => {
         deletingSmurf: false,
         error: null
       }
-      case CREATING:
+      case SUCCESS:
         return {
           ...state,
+          smurfs: action.payload,
           fetchingSmurfs: false,
-          addingSmurf: true,
+          addingSmurf: false,
           updatingSmurf: false,
           deletingSmurf: false,
           error: null
       };
-      case UPDATING:
-        return {
-          ...state,
-          fetchingSmurfs: false,
-          addingSmurf: false,
-          updatingSmurf: true,
-          deletingSmurf: false,
-          error: null
-      };
-      case DELETING:
+      case ERROR:
         return {
           ...state,
           fetchingSmurfs: false,
           addingSmurf: false,
           updatingSmurf: false,
-          deletingSmurf: true,
-          error: null
+          deletingSmurf: false,
+          error: 'UH OH'
       };
 
     default:
