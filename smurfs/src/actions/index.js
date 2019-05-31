@@ -2,7 +2,10 @@
   Action Types Go Here!
   Be sure to export each action type so you can pull it into your reducer
 */
-
+export const FETCHING = "FETCHING"
+export const CREATING = "CREATING"
+export const UPDATING = "UPDATING"
+export const DELETING = "DELETING"
 /*
   For this project you'll need at least 2 action creators for the main portion,
    and 2 more for the stretch problem.
@@ -13,3 +16,19 @@
    U - updateSmurf
    D - deleteSmurf
 */
+
+export const getSmurfs = () => dispatch => {
+  dispatch({
+      type: FETCHING
+  });
+  return axios 
+      .get('http://localhost:3333/smurfs')
+
+      .then (res => {
+          dispatch({
+              type: CREATING,
+              payload: res.data.results
+          })
+      })
+      .catch(err => dispatch({ type: DELETING}))
+}
